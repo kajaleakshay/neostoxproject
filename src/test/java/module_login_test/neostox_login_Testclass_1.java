@@ -3,6 +3,7 @@ package module_login_test;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -10,6 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import module_login_pom.neostox_baseclass;
+import module_login_pom.neostox_homepage_pom;
 import module_login_pom.neostox_loginpage1_pom;
 import module_login_pom.neostox_noticepage_pom;
 import module_login_pom.neostx_loginpage2_pom;
@@ -21,6 +23,7 @@ public class neostox_login_Testclass_1 extends neostox_baseclass
 	neostox_loginpage1_pom login1;
 	neostx_loginpage2_pom login2;
 	neostox_noticepage_pom notice;
+	 neostox_homepage_pom home;
 	@BeforeClass
 	public void openthebrowser()
 	{
@@ -34,6 +37,9 @@ public class neostox_login_Testclass_1 extends neostox_baseclass
 		 
 		//for the notice page
 	   notice= new neostox_noticepage_pom(driver);
+	   
+	   // for the home page
+	    home=new neostox_homepage_pom(driver);
 		
 	}
 	@BeforeMethod
@@ -54,7 +60,7 @@ public class neostox_login_Testclass_1 extends neostox_baseclass
 		login2.clickbtn();
 		
 		// to click the notice page
-		Thread.sleep(1000);
+		Thread.sleep(1500);
 		notice.noticepage();
 		
 	//	driver.switchTo().alert().dismiss();
@@ -64,11 +70,18 @@ public class neostox_login_Testclass_1 extends neostox_baseclass
 	@Test
 	public void varifyuser()
 	{
+		  home.logovarify();
 		
 	}
 	@AfterMethod
-	public void logout()
+	public void logout(ITestResult s1) throws IOException
 	{
+		System.out.println("is it running");
+		
+		if(s1.getStatus()==ITestResult.FAILURE)
+		{
+			utilityclass_1.screenshot(driver);
+		}
 		
 	}
 	@AfterClass
